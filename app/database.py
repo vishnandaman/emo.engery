@@ -1,12 +1,3 @@
-"""
-Database configuration and session management.
-
-This module sets up SQLAlchemy for database operations.
-SQLAlchemy is an ORM (Object-Relational Mapping) that allows us to
-work with databases using Python objects instead of raw SQL.
-
-Using MySQL database for production deployment.
-"""
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base

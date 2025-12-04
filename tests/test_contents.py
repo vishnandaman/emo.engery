@@ -1,29 +1,18 @@
 """
-Unit tests for content management endpoints.
+Content management endpoint tests.
 
-Tests cover:
-- Creating content
-- Retrieving content
-- Deleting content
-- Authentication requirements
+Tests:
+- Create content (success and unauthorized)
+- Get all contents
+- Get content by ID
+- Delete content
 """
 
-import pytest
 from fastapi import status
 
 
 def get_auth_token(client, username="testuser", password="testpassword123"):
-    """
-    Helper function to get authentication token.
-    
-    Args:
-        client: Test client
-        username: Username for login
-        password: Password for login
-    
-    Returns:
-        str: JWT access token
-    """
+    """Helper: Get JWT token for authenticated requests."""
     response = client.post(
         "/api/login",
         json={"username": username, "password": password}
@@ -32,14 +21,7 @@ def get_auth_token(client, username="testuser", password="testpassword123"):
 
 
 def test_create_content_success(client, test_user):
-    """
-    Test successful content creation.
-    
-    This test:
-    1. Authenticates as test_user
-    2. Creates new content
-    3. Verifies content is created with correct data
-    """
+    """Test authenticated user can create content."""
     token = get_auth_token(client)
     headers = {"Authorization": f"Bearer {token}"}
     
@@ -57,12 +39,7 @@ def test_create_content_success(client, test_user):
 
 
 def test_create_content_unauthorized(client):
-    """
-    Test content creation without authentication.
-    
-    This test verifies that unauthenticated requests
-    are rejected with 401 Unauthorized.
-    """
+    """Test unauthenticated requests are rejected."""
     response = client.post(
         "/api/contents",
         json={"text": "Unauthorized content"}
@@ -72,14 +49,7 @@ def test_create_content_unauthorized(client):
 
 
 def test_get_contents_success(client, test_user):
-    """
-    Test retrieving user's content list.
-    
-    This test:
-    1. Creates content
-    2. Retrieves all contents
-    3. Verifies the content is in the list
-    """
+    """Test user can retrieve their content list."""
     token = get_auth_token(client)
     headers = {"Authorization": f"Bearer {token}"}
     
@@ -100,14 +70,7 @@ def test_get_contents_success(client, test_user):
 
 
 def test_get_content_by_id(client, test_user):
-    """
-    Test retrieving specific content by ID.
-    
-    This test:
-    1. Creates content
-    2. Retrieves it by ID
-    3. Verifies correct content is returned
-    """
+    """Test user can retrieve specific content by ID."""
     token = get_auth_token(client)
     headers = {"Authorization": f"Bearer {token}"}
     
@@ -129,14 +92,7 @@ def test_get_content_by_id(client, test_user):
 
 
 def test_delete_content_success(client, test_user):
-    """
-    Test successful content deletion.
-    
-    This test:
-    1. Creates content
-    2. Deletes it
-    3. Verifies it's deleted (404 on retrieval)
-    """
+    """Test user can delete their content."""
     token = get_auth_token(client)
     headers = {"Authorization": f"Bearer {token}"}
     

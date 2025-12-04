@@ -56,6 +56,12 @@ Thumbs.db
 # Documentation (keep locally but don't commit)
 CODE_EXPLANATION.md
 INTERVIEW_PREP.md
+FINAL_REVIEW.md
+MYSQL_SETUP.md
+COMPREHENSIVE_INTERVIEW_GUIDE.md
+
+# GitHub workflows (not needed for submission)
+.github/
 
 # Temporary test files
 test_mysql_connection.py

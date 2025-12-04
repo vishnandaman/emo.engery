@@ -1,26 +1,16 @@
 """
-Unit tests for authentication endpoints.
+Authentication endpoint tests.
 
-Tests cover:
-- User registration (signup)
-- User login
-- Token generation
-- Error handling
+Tests:
+- User signup (success and duplicate username)
+- User login (success and invalid credentials)
 """
 
-import pytest
 from fastapi import status
 
 
 def test_signup_success(client):
-    """
-    Test successful user registration.
-    
-    This test:
-    1. Sends a POST request to /api/signup
-    2. Verifies the response status is 201 Created
-    3. Verifies a JWT token is returned
-    """
+    """Test successful user registration returns JWT token."""
     response = client.post(
         "/api/signup",
         json={
@@ -38,12 +28,7 @@ def test_signup_success(client):
 
 
 def test_signup_duplicate_username(client):
-    """
-    Test registration with duplicate username.
-    
-    This test verifies that the API correctly rejects
-    duplicate usernames with a 400 Bad Request error.
-    """
+    """Test that duplicate username registration is rejected."""
     # Create first user
     client.post(
         "/api/signup",
@@ -69,14 +54,7 @@ def test_signup_duplicate_username(client):
 
 
 def test_login_success(client, test_user):
-    """
-    Test successful user login.
-    
-    This test:
-    1. Uses the test_user fixture (pre-created user)
-    2. Sends login request with correct credentials
-    3. Verifies JWT token is returned
-    """
+    """Test successful login returns JWT token."""
     response = client.post(
         "/api/login",
         json={
@@ -92,12 +70,7 @@ def test_login_success(client, test_user):
 
 
 def test_login_invalid_credentials(client, test_user):
-    """
-    Test login with incorrect password.
-    
-    This test verifies that the API correctly rejects
-    invalid credentials with a 401 Unauthorized error.
-    """
+    """Test that incorrect password is rejected."""
     response = client.post(
         "/api/login",
         json={
